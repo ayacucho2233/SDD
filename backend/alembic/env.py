@@ -4,19 +4,21 @@ import sys
 from logging.config import fileConfig
 
 from alembic import context
-from sqlalchemy import pool
-from sqlalchemy.ext.asyncio import async_engine_from_config
+from sqlalchemy.ext.asyncio import create_async_engine
+from sqlalchemy.pool import NullPool
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from app.config import get_settings  # noqa: E402
 from app.database import Base  # noqa: E402
 from app.models import reserva, vehiculo  # noqa: E402,F401 (registran los modelos en Base.metadata)
 
 config = context.config
 
-database_url = os.environ.get("DATABASE_URL")
-if database_url:
-    config.set_main_option("sqlalchemy.url", database_url)
+# Reusar app.config.get_settings() (en vez de os.environ.get("DATABASE_URL"))
+# para que alembic lea DATABASE_URL desde backend/.env igual que la propia
+# app — os.environ.get() por sí solo NO carga el archivo .env.
+config.set_main_option("sqlalchemy.url", get_settings().database_url)
 
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
@@ -43,10 +45,13 @@ def do_run_migrations(connection) -> None:
 
 
 async def run_migrations_online() -> None:
-    connectable = async_engine_from_config(
-        config.get_section(config.config_ini_section, {}),
-        prefix="sqlalchemy.",
-        poolclass=pool.NullPool,
+    # No usar async_engine_from_config(config.get_section(...)): la sección
+    # [alembic] del .ini no trae "sqlalchemy.url" a propósito (nunca
+    # hardcodear credenciales, ver Agents.md), y set_main_option() no
+    # garantiza reflejarse en get_section() en todas las versiones de
+    # Alembic. Se arma el engine directo con la URL ya resuelta.
+    connectable = create_async_engine(
+        config.get_main_option("sqlalchemy.url"), poolclass=NullPool
     )
 
     async with connectable.connect() as connection:

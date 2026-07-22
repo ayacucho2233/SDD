@@ -1,0 +1,286 @@
+:root {
+  --color-primario: #1d4e89;
+  --color-primario-oscuro: #163d6b;
+  --color-acento: #2a9d8f;
+  --color-fondo: #f4f6f9;
+  --color-superficie: #ffffff;
+  --color-texto: #1f2937;
+  --color-texto-suave: #6b7280;
+  --color-borde: #e2e5ea;
+  --color-exito: #1b7a4d;
+  --color-exito-fondo: #e6f6ee;
+  --color-error: #b3261e;
+  --color-error-fondo: #fdecea;
+  --radio: 10px;
+  --sombra: 0 1px 3px rgba(16, 24, 40, 0.08), 0 1px 2px rgba(16, 24, 40, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+  background: var(--color-fondo);
+  color: var(--color-texto);
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  background: linear-gradient(135deg, var(--color-primario), var(--color-primario-oscuro));
+  color: white;
+  padding: 1.25rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.app-header .volver-btn {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.app-header .volver-btn:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.app-main {
+  flex: 1;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+}
+
+/* Menú principal */
+
+.menu-principal {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.menu-card {
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.menu-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 14px rgba(16, 24, 40, 0.14);
+}
+
+.menu-card .icono {
+  font-size: 2.5rem;
+}
+
+.menu-card h2 {
+  margin: 0.25rem 0 0;
+  font-size: 1.15rem;
+  color: var(--color-primario);
+}
+
+.menu-card p {
+  margin: 0;
+  color: var(--color-texto-suave);
+  font-size: 0.9rem;
+}
+
+/* Sub-navegación (Nueva reserva / Mis reservas) */
+
+.subnav {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-borde);
+}
+
+.subnav button {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  color: var(--color-texto-suave);
+  padding: 0.6rem 0.25rem;
+  font-weight: 500;
+}
+
+.subnav button:hover {
+  color: var(--color-primario);
+  background: none;
+}
+
+.subnav button.activo {
+  color: var(--color-primario);
+  border-bottom-color: var(--color-primario);
+}
+
+/* Secciones / tarjetas de contenido */
+
+section {
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  box-shadow: var(--sombra);
+  padding: 1.75rem;
+}
+
+section h2 {
+  margin-top: 0;
+  color: var(--color-primario-oscuro);
+  font-size: 1.2rem;
+}
+
+/* Botones */
+
+button {
+  font-family: inherit;
+  font-size: 0.9rem;
+  background: var(--color-primario);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.55rem 1rem;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+button:hover {
+  background: var(--color-primario-oscuro);
+}
+
+button:disabled {
+  background: var(--color-borde);
+  color: var(--color-texto-suave);
+  cursor: not-allowed;
+}
+
+/* Formularios */
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  max-width: 420px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  color: var(--color-texto-suave);
+  font-weight: 500;
+}
+
+input,
+select {
+  font-family: inherit;
+  font-size: 0.95rem;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--color-borde);
+  border-radius: 6px;
+  color: var(--color-texto);
+  background: var(--color-superficie);
+}
+
+input:focus,
+select:focus {
+  outline: 2px solid var(--color-acento);
+  outline-offset: 1px;
+}
+
+form button {
+  align-self: flex-start;
+  margin-top: 0.25rem;
+}
+
+/* Tablas */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+thead th {
+  text-align: left;
+  color: var(--color-texto-suave);
+  font-weight: 600;
+  border-bottom: 2px solid var(--color-borde);
+  padding: 0.5rem 0.6rem;
+}
+
+tbody td {
+  padding: 0.55rem 0.6rem;
+  border-bottom: 1px solid var(--color-borde);
+}
+
+tbody tr:hover {
+  background: var(--color-fondo);
+}
+
+tbody tr[aria-selected="true"] {
+  background: #e8f0fa;
+}
+
+table input {
+  width: 6rem;
+  padding: 0.3rem 0.4rem;
+}
+
+table button {
+  padding: 0.35rem 0.6rem;
+  font-size: 0.8rem;
+  margin-right: 0.3rem;
+}
+
+/* Mensajes */
+
+[role="alert"] {
+  background: var(--color-error-fondo);
+  color: var(--color-error);
+  border: 1px solid var(--color-error);
+  border-radius: 6px;
+  padding: 0.6rem 0.85rem;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+[role="status"] {
+  background: var(--color-exito-fondo);
+  color: var(--color-exito);
+  border: 1px solid var(--color-exito);
+  border-radius: 6px;
+  padding: 0.6rem 0.85rem;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
